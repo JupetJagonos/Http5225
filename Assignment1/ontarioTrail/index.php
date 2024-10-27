@@ -6,15 +6,15 @@
     <title>Trail List</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/slate/bootstrap.min.css" crossorigin="anonymous">
     
-    <!-- Leaflet CSS -->
+    <!-- Leaflet CSS and the map-->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     
-    <!-- Font Awesome CSS for icons -->
+    <!-- Font Awesome CSS , this is for the icon of each activities-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
     <style>
         #map {
-            height: 400px; /* Set height for the map */
+            height: 400px; 
             margin-top: 20px;
         }
     </style>
@@ -28,11 +28,11 @@
         </div>
     </div>
 
-    <!-- Search Box -->
+    <!-- Search Box, just a search bar for the trail name but not connected to the map -->
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1 class="display-2">Trails</h1>
+                <h1 class="display-2">Start your adventure </h1>
                 <div class="input-group mb-3">
                     <input type="text" id="searchInput" class="form-control" placeholder="Search for trail by name" aria-label="Search for trail">
                     <button class="btn btn-outline-secondary" type="button" id="searchButton">Search</button>
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <!-- Map Container within a Bootstrap Card -->
+    <!-- Map Container within a Bootstrap Card, not functioning geotagging, I have the coordinates on different csv file -->
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -117,25 +117,22 @@
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
     <script>
-        // Initialize the map
         var map = L.map('map').setView([43.7, -79.4], 8); // Default center coordinates
-
         // Add a tile layer from OpenStreetMap
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
         }).addTo(map);
-
-        // Fetch GeoJSON data and add to the map
-        fetch('https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open04/MapServer/19/query?outFields=*&where=1%3D1&f=geojson')
-            .then(response => response.json())
-            .then(geojsonData => {
-                L.geoJSON(geojsonData, {
-                    onEachFeature: function (feature, layer) {
-                        layer.bindPopup(feature.properties.name); // Display trail name on click
-                    }
-                }).addTo(map);
-            })
-            .catch(error => console.error('Error fetching GeoJSON:', error));
+        // // Fetch GeoJSON data and add to the map
+        // fetch('https://ws.lioservices.lrc.gov.on.ca/arcgis2/rest/services/LIO_OPEN_DATA/LIO_Open04/MapServer/19/query?outFields=*&where=1%3D1&f=geojson')
+        //     .then(response => response.json())
+        //     .then(geojsonData => {
+        //         L.geoJSON(geojsonData, {
+        //             onEachFeature: function (feature, layer) {
+        //                 layer.bindPopup(feature.properties.name); // Display trail name on click
+        //             }
+        //         }).addTo(map);
+        //     })
+        //     .catch(error => console.error('Error fetching GeoJSON:', error));
 
         // Search functionality
         document.getElementById('searchButton').addEventListener('click', function() {
@@ -145,9 +142,9 @@
             trailCards.forEach(function(card) {
                 var trailName = card.getAttribute('data-name');
                 if (trailName.includes(searchTerm)) {
-                    card.style.display = 'block'; // Show matching trails
+                    card.style.display = 'block'; 
                 } else {
-                    card.style.display = 'none'; // Hide non-matching trails
+                    card.style.display = 'none'; 
                 }
             });
         });
